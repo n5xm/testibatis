@@ -13,4 +13,21 @@ public class Employee {
 		this.last_name = lname;
 		this.salary = salary;
 	}
+
+	/* Here are the method definitions */
+	public int getId() {
+		return id;
+	}
+
+	public String getFirstName() {
+		return first_name;
+	}
+
+	public String getLastName() {
+		return last_name;
+	}
+
+	public int getSalary() {
+		return salary;
+	}
 } /* End of Employee */

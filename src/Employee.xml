@@ -5,8 +5,7 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 
 <sqlMap namespace="Employee">
 	<insert id="insert" parameterClass="Employee">
-
-		insert into EMPLOYEE(first_name, last_name, salary)
+		INSERT INTO EMPLOYEE(first_name, last_name, salary)
 		values (#first_name#, #last_name#, #salary#)
 
 		<selectKey resultClass="int" keyProperty="id">
@@ -14,5 +13,7 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 		</selectKey>
 
 	</insert>
-
+	<select id="getAll" resultClass="Employee">
+		SELECT * FROM EMPLOYEE
+	</select>
 </sqlMap>
