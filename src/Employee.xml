@@ -59,4 +59,18 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 		parameterClass="int">
 		{ call getEmp( #acctID# ) }
 	</procedure>
+
+	<select id="findByID" resultClass="Employee">
+		SELECT * FROM EMPLOYEE
+		<dynamic prepend="WHERE ">
+			<!-- <isNotNull property="id"> id = #id# </isNotNull> -->
+			<isNotNull prepend="AND" property="first_name">
+				first_name like
+				CONCAT('%',#first_name#, '%')
+			</isNotNull>
+			<!-- <isPropertyAvailable property="last_name"> <iterate prepend="AND" 
+				property="last_name" open="(" close=")" conjunction="OR"> last_name like 
+				#last_name[]# </iterate> </isPropertyAvailable> -->
+		</dynamic>
+	</select>
 </sqlMap>
