@@ -24,4 +24,9 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 		= #first_name#
 		WHERE id = #id#
 	</update>
+
+	<delete id="delete" parameterClass="int">
+		DELETE FROM EMPLOYEE
+		WHERE id = #id#
+	</delete>
 </sqlMap>
