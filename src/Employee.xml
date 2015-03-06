@@ -47,4 +47,16 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 		WHERE
 		id=#id#
 	</select>
+
+	<!-- To call stored procedure. -->
+	<!-- <parameterMap id="getEmpInfoCall" class="java.util.Map"> <parameter 
+		property="acctID" jdbcType="INT" javaType="java.lang.Integer" mode="IN" /> 
+		</parameterMap> <procedure id="getEmpInfo" resultClass="Employee" parameterMap="getEmpInfoCall"> 
+		{ call getEmp( #acctID# )} </procedure> -->
+	<!-- Cause: java.sql.SQLException: Invalid parameter object type. Expected 
+		'java.util.Map' but found 'java.lang.Integer'. -->
+	<procedure id="getEmpInfo" resultClass="Employee"
+		parameterClass="int">
+		{ call getEmp( #acctID# ) }
+	</procedure>
 </sqlMap>
