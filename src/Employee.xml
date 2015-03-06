@@ -4,6 +4,7 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 "http://ibatis.apache.org/dtd/sql-map-2.dtd">
 
 <sqlMap namespace="Employee">
+	<!-- Perform Insert Operation -->
 	<insert id="insert" parameterClass="Employee">
 		INSERT INTO EMPLOYEE(first_name, last_name, salary)
 		values
@@ -14,10 +15,12 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 		</selectKey>
 	</insert>
 
+	<!-- Perform Read Operation -->
 	<select id="getAll" resultClass="Employee">
 		SELECT * FROM EMPLOYEE
 	</select>
 
+	<!-- Perform Update Operation -->
 	<update id="update" parameterClass="Employee">
 		UPDATE EMPLOYEE
 		SET first_name
@@ -25,8 +28,23 @@ PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
 		WHERE id = #id#
 	</update>
 
+	<!-- Perform Delete Operation -->
 	<delete id="delete" parameterClass="int">
 		DELETE FROM EMPLOYEE
-		WHERE id = #id#
+		WHERE id
+		= #id#
 	</delete>
+
+	<!-- Using ResultMap -->
+	<resultMap id="result" class="Employee">
+		<result property="id" column="id" />
+		<result property="first_name" column="first_name" />
+		<result property="last_name" column="last_name" />
+		<result property="salary" column="salary" />
+	</resultMap>
+	<select id="useResultMap" resultMap="result">
+		SELECT * FROM EMPLOYEE
+		WHERE
+		id=#id#
+	</select>
 </sqlMap>
