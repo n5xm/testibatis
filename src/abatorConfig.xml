@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ibatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN" "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd">
+<ibatorConfiguration>
+	<!-- url 指定属性文件绝对路径。注意与指定数据库jdbc驱动jar包路径的区别哈。 可以使用${property}的格式引用属性文件中的属性值。 
+		<properties url="D:/WorkSpace/SSIStudy/ibator-config.properties"/> -->
+	<!-- classPathEntry 指定数据库jdbc驱动jar包的绝对路径。 可为为空 The full path name of a JAR/ZIP 
+		file to add to the classpath, or a directory to add to the classpath -->
+	<classPathEntry location="D:/WorkSpace/SSIStudy/WebRoot/WEB-INF/lib" />
+
+	<!-- id 这个id可以在使用命令行运行Abator时指定，以单独处理某一个ibatorContext targetRuntime Ibatis2Java5 
+		生成适合JDK5.0的类，另一个选项是 Ibatis2Java2，生成适合Java2的类。 -->
+	<ibatorContext id="SSIStudy" targetRuntime="Ibatis2Java2">
+		<!-- ibatorPlugin 继承自IbatorPluginAdapter，包名必须是 org.apache.ibatis.ibator.plugins，具体实现可以参考官方文档 
+			必须有替换和被替换字符属性。 可以没有 -->
+		<!-- <ibatorPlugin type="org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin"> 
+			<property name="searchString" value="Example$" /> <property name="replaceString" 
+			value="Criteria" /> </ibatorPlugin> driverClass 数据库驱动类 这里连接sqlserver2000 
+			connectionURL 数据库连接地址 userId 用户 password 密码 还可以使用以下格式添加数据库的其他连接属性 <property 
+			name="" value=""/> -->
+
+		<jdbcConnection driverClass="com.microsoft.jdbc.sqlserver.SQLServerDriver"
+			connectionURL="jdbc:microsoft:sqlserver://localhost:1433;DatabaseName=demo"
+			userId="sa" password="sa">
+		</jdbcConnection>
+
+		<javaTypeResolver>
+			<!-- 默认false，把JDBC DECIMAL 和 NUMERIC 类型解析为 Integer true，把JDBC DECIMAL 
+				和 NUMERIC 类型解析为java.math.BigDecimal -->
+			<property name="forceBigDecimals" value="false" />
+		</javaTypeResolver>
+		<!-- //When running outside of an IDE environment like Eclipse, Ibator 
+			interprets the targetProject and targetPackage attributes in all XML configurations 
+			as follows targetProject 生成的Java Bean放置在哪个项目的哪个目录下 targetPackage 生成的Java 
+			Bean的包名 一个有用的属性 从数据库返回的值被清理前后的空格 <property name="trimStrings" value="true" 
+			/> 是否在包名后加上scheme名称 <property name="enableSubPackages" value="false" /> -->
+		<javaModelGenerator targetPackage="cn.per.jiabeis.model"
+			targetProject="D:/WorkSpace/SSIStudy/src">
+			<property name="enableSubPackages" value="true" />
+			<property name="trimStrings" value="true" />
+		</javaModelGenerator>
+		<!-- targetProject 生成的 SqlMap.xml 文件放置在哪个项目的哪个目录下 targetPackage 生成的 SqlMap.xml 
+			文件的包名 <property name="enableSubPackages" value="false" /> 是否在包名后加上scheme名称 -->
+		<sqlMapGenerator targetPackage="cn.per.jiabeis.model.config"
+			targetProject="D:/WorkSpace/SSIStudy/src">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- targetProject 生成的 dao类文件放置在哪个项目的哪个目录下 targetPackage 生成的 dao类文件的包名 
+			<property name="enableSubPackages" value="false" /> 是否在包名后加上scheme名称 type 
+			生成dao文件的类型，可选择IBATIS、SPRING、GENERIC-CI、GENERIC-SI。默认使用GENERIC-CI dao类在构造器中获取 
+			SqlMapClient。 -->
+		<daoGenerator targetPackage="cn.per.jiabeis.dao"
+			targetProject="D:/WorkSpace/SSIStudy/src" type="IBATIS">
+			<property name="enableSubPackages" value="true" />
+		</daoGenerator>
+
+		<!-- tableName 数据库表明，据说可以包含SQL通配符%和_。 domainObjectName 数据库表对应的数据对象名称，默认使用表名作为对象名称。 -->
+		<table tableName="student" domainObjectName="Student">
+			<!-- 对象的属性名是否使用字段名称,默认为true -->
+			<property name="stuname" value="stuname" />
+			<!-- column 自增长或使用sequence生成的字段名 sqlStatement 生成字段的sql片段或其简称(参考官方文档) identity 
+				true表示后生成，false表示预生成 例如： postgresql：<generatedKey column="lid" sqlStatement="select 
+				nextval('tb000000producttype_lid_seq')" identity="false" /> sqlserver：<generatedKey 
+				column="lid" sqlStatement="SqlServer" identity="true" /> oracle：<generatedKey 
+				column="lid" sqlStatement="select tb000000producttype_lid_seq.nextval from 
+				dual" identity="false" /> MySql：<generatedKey column="lid" sqlStatement="MySql" 
+				identity="false" /> -->
+			<generatedKey column="stuid" sqlStatement="SqlServer"
+				identity="true" />
+
+			<!-- 数据库字段名称到对象属性名称的影射关系。就是一个替换处理。 -->
+			<columnRenamingRule searchString="^CUST_"
+				replaceString="" />
+			<!-- column 字段名 property 字段对应的属性名。(默认使用字段名的) javaType 对应的Java类型 jdbcType 
+				对应的jdbc类型 这里的设置覆写javaTypeResolver中的指定 -->
+			<columnOverride column="DATE_FIELD" property="startDate" />
+
+			<!-- column 需要忽略的数据库字段 -->
+			<ignoreColumn column="FRED" />
+
+		</table>
+
+		<table tableName="teacher" />
+		<table tableName="course" />
+		<table tableName="stu_course" />
+	</ibatorContext>
+</ibatorConfiguration>
+<!-- ref http://blog.csdn.net/jiabeis/article/details/5554688 -->

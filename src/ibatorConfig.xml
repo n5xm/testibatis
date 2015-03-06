@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE ibatorConfiguration PUBLIC "-//Apache Software Foundation//DTD Apache iBATIS Ibator Configuration 1.0//EN" "http://ibatis.apache.org/dtd/ibator-config_1_0.dtd" >
+<ibatorConfiguration>
+	<classPathEntry
+		location="E:\testibatis\WebContent\WEB-INF\lib\mysql-connector-java-5.0.4.jar" />
+	<ibatorContext id="testibatis">
+		<ibatorPlugin
+			type="org.apache.ibatis.ibator.plugins.RenameExampleClassPlugin">
+			<property name="searchString" value="Example$" />
+			<property name="replaceString" value="Repository" />
+		</ibatorPlugin>
+
+		<ibatorPlugin type="org.apache.ibatis.ibator.plugins.SerializablePlugin"></ibatorPlugin>
+
+		<!-- <jdbcConnection driverClass="com.microsoft.sqlProject.jdbc.SQLProjectDriver" 
+			connectionURL="jdbc:sqlProject://localhost:1433;DatabaseName=project" userId="sa" 
+			password="sa" /> -->
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/testibatis" userId="root"
+			password="ictehi">
+		</jdbcConnection>
+		<javaModelGenerator targetPackage="project.model"
+			targetProject="testibatis" />
+		<sqlMapGenerator targetPackage="project.dao.xml"
+			targetProject="testibatis" />
+		<daoGenerator targetPackage="project.dao" targetProject="testibatis"
+			type="GENERIC-CI" />
+
+		<table schema="" tableName="employee" />
+
+	</ibatorContext>
+</ibatorConfiguration>
+<!-- ref http://www.cnblogs.com/ego/archive/2010/10/02/1840749.html -->
